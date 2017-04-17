@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Hello from '@/components/Hello'
 import Goods from 'components/goods/goods.vue'
 import Seller from 'components/seller/seller.vue'
 import Ratings from 'components/ratings/ratings.vue'
@@ -11,6 +10,10 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: '/goods'
+    },
+    {
+      path: '/goods',
       component: Goods
     },
     {

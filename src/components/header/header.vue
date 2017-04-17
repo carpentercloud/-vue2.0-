@@ -30,11 +30,43 @@
     <div class="back-img">
       <img :src="seller.avatar" width="100%" height="100%" >
     </div>
-    <div v-if="detailStatus" class="seller-detail"></div>
+    <transition name="fade">
+      <div v-if="detailStatus" class="seller-detail">
+        <div class="detail-wrapper clearfix">
+          <div class="detail-main">
+            <h1 class="name">{{seller.name}}</h1>
+            <star :size="48" :score="4.5"></star>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">优惠信息</div>
+              <div class="line"></div>
+            </div>
+            <ul v-if="seller.supports" class="supports">
+              <li class="supports-item" v-for="(item, index) in seller.supports">
+                <span class="icon" :class="classMap[item.type]"></span>
+                <span class="text">{{item.description}}</span>
+              </li>
+            </ul>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">商家公告</div>
+              <div class="line"></div>
+            </div>
+            <div class="bulletin">
+              <p class="content">{{seller.bulletin}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="detail-close" @click="hideDetail">
+          <i class="icon-close"></i>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import star from 'components/star/star.vue'
 export default {
   props: {
     seller: {
@@ -56,6 +88,9 @@ export default {
   },
   created () {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+  },
+  components: {
+    star
   }
 }
 </script>
@@ -200,6 +235,96 @@ export default {
     height: 100%;
     overflow: auto;
     background: rgba(7, 17, 27, 0.8);
+    &.fade-enter-active, &.fade-leave-active {
+      transition: all 0.5s;
+    }
+    &.fade-enter, &.fade-leave-active {
+      opacity: 0;
+      background: rgba(7, 17, 27, 0)
+    }
+    .detail-wrapper {
+      width: 100%;
+      min-height: 100%;
+      .detail-main {
+        padding-bottom: 64px;
+        width: 80%;
+        margin: 60px auto 0;
+        text-align: center;
+        .name {
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 16px;
+        }
+        .title {
+          display: flex;
+          margin: 28px auto 24px auto;
+          .line {
+            position: relative;
+            flex: 1;
+            top: -6px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+          }
+          .text {
+            padding: 0 12px;
+            font-size: 14px;
+            font-weight: 700;
+          }
+        }
+        .supports {
+          margin: 0 auto;
+          text-align: left;
+          font-size: 0px;
+          .supports-item {
+            padding: 0 12px;
+            margin-bottom: 12px;
+            .icon {
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              margin-right: 6px;
+              vertical-align: top;
+              background-size: 16px 16px;
+              background-repeat: no-repeat;
+              &.decrease {
+                bg-image('decrease_2');
+              }
+              &.discount {
+                bg-image('discount_2');
+              }
+              &.guarantee {
+                bg-image('guarantee_2');
+              }
+              &.invoice {
+                bg-image('invoice_2');
+              }
+              &.special {
+                bg-image('special_2');
+              }
+            }
+            .text {
+              font-size: 12px;
+              line-height: 16px;
+            }
+          }
+        }
+        .bulletin {
+          .content {
+            font-size: 12px;
+            line-height: 24px;
+            text-align: left;
+          }
+        }
+      }
+    }
+    .detail-close {
+      position: relative;
+      height: 32px;
+      width: 32px;
+      margin: -64px auto 0 auto;
+      line-height: 64px;
+      clear: both;
+      font-size: 32px;
+    }
   }
 }
 </style>
