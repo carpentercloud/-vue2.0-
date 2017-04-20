@@ -7,7 +7,7 @@
       <div class="content">
         <div class="title">
           <span class="brand"></span>
-          <span class="name">{{seller.name}}</span>
+          <span class="name">{{seller.name}}<i class="iconfont icon-arrowright"></i></span>
         </div>
         <div class="description">
           {{seller.description}}/{{seller.deliveryTime}}分钟送达
